@@ -1,0 +1,55 @@
+import java.util.Random;
+
+public class Corredor implements Runnable{
+    String nome;
+    float acc;     // aceleracao (m/s²)
+    float maxspd;  // velocidade maxima (m/s)
+    float end;     // resistencia (tempo (s) em velocidade maxima)
+    float decc;    // desaceleracao (m/s²)
+    float spd;     // velocidade atual
+    float dist;    // distancia percorrida (m)
+    String stage;  // fase da corrida (aceleracao, pico, desaceleracao)
+    int time;
+    Random random = new Random();
+    public Corredor(String nome){
+        this.nome   = nome;
+        this.acc    = random.nextFloat() + 1;
+        this.maxspd = random.nextFloat() + 6;
+        this.decc   = random.nextFloat() + 1;
+        this.spd    = 0;
+        this.stage  = "a";
+        this.time   = 1;
+    }
+    public void run(){
+        while(dist < 100){
+            if(spd <  maxspd){
+                spd += acc;
+            }else if(spd == maxspd){
+                acc = decc;
+                spd -= acc;
+                stage = "d";
+            }else{
+                spd = maxspd;
+                stage = "p";
+            }
+            dist += (spd * time) / 2;
+            time ++;
+            if(dist >= 100){
+                System.out.println(nome + " |   Chegou!");
+            }else{
+                String distString = "";
+                for(int i = 0; i < dist; i++){
+                    distString += ".";
+                }
+                System.out.println(nome + " | " + stage + " " + distString);
+            }
+            Thread.currentThread();
+            Thread.yield();
+            try{
+                Thread.sleep(1000);
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }   
+        }
+    }
+}
