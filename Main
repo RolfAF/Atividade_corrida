@@ -1,0 +1,11 @@
+public class Main {
+    public static void main(String[] args){
+        System.out.println("Largada!");
+        new Thread(new Corredor("joão ")).start();
+        new Thread(new Corredor("pedro")).start();
+        new Thread(new Corredor("mario")).start();
+        new Thread(new Corredor("jonas")).start();
+        new Thread(new Corredor("bruno")).start();
+        new Thread(new Corredor("marco")).start();
+    } 
+}
